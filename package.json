@@ -7,7 +7,10 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "biome check",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "db:generate": "pnpm drizzle-kit generate",
+    "db:migrate": "pnpm drizzle-kit migrate",
+    "db:studio": "pnpm drizzle-kit studio"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.15",
@@ -21,6 +24,7 @@
     "@trpc/server": "^11.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.1",
     "drizzle-orm": "^0.44.4",
     "lucide-react": "^0.540.0",
     "next": "15.5.0",
@@ -29,6 +33,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "sonner": "^2.0.7",
+    "superjson": "^2.2.2",
     "tailwind-merge": "^3.3.1",
     "zod": "^4.0.17"
   },
