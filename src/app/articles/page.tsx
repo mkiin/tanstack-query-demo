@@ -2,6 +2,7 @@ import { ArticlesContainer } from "./_containers/articles/container";
 
 export default function ArticlesPage() {
   return (
+    // <HydrateClient>
     <div className="min-h-screen max-w-full bg-gray-50 py-8">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
@@ -10,5 +11,6 @@ export default function ArticlesPage() {
         <ArticlesContainer />
       </div>
     </div>
+    // </HydrateClient>
   );
 }

@@ -1,24 +1,17 @@
-// サーバー側からtRPCを呼び出すためのコンテキストを作成する
-/** biome-ignore-all lint/suspicious/noExplicitAny: <TRPC利用のたｍ> */
-/**
- * step1: サーバーで利用するコンテキストの作成
- * step2: サーバーでtRPCを呼び出す際のクエリークライント
- * step3: ハイドレーション境界コンポーネントを作成
- */
-import "server-only";
-
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import {
-  createTRPCOptionsProxy,
-  type TRPCQueryOptions,
-} from "@trpc/tanstack-react-query";
+import type { TRPCQueryOptions } from "@trpc/tanstack-react-query";
+import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query";
 import { headers } from "next/headers";
-import type React from "react";
 import { cache } from "react";
-import { createTRPCContext } from "./init";
-import { makeQueryClient } from "./query-client";
-import { type AppRouter, appRouter } from "./routers/_app";
+import { createTRPCContext } from "@/trpc/init";
+import { type AppRouter, appRouter } from "@/trpc/routers/_app";
 
+import { createQueryClient } from "./query-client";
+
+/**
+ * This wraps the `createTRPCContext` helper and provides the required context for the tRPC API when
+ * handling a tRPC call from a React Server Component.
+ */
 const createContext = cache(async () => {
   const heads = new Headers(await headers());
   heads.set("x-trpc-source", "rsc");
@@ -28,7 +21,7 @@ const createContext = cache(async () => {
   });
 });
 
-const getQueryClient = cache(makeQueryClient);
+const getQueryClient = cache(createQueryClient);
 
 export const trpc = createTRPCOptionsProxy<AppRouter>({
   router: appRouter,
@@ -44,11 +37,13 @@ export function HydrateClient(props: { children: React.ReactNode }) {
     </HydrationBoundary>
   );
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function prefetch<T extends ReturnType<TRPCQueryOptions<any>>>(
   queryOptions: T,
 ) {
   const queryClient = getQueryClient();
   if (queryOptions.queryKey[1]?.type === "infinite") {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
     void queryClient.prefetchInfiniteQuery(queryOptions as any);
   } else {
     void queryClient.prefetchQuery(queryOptions);
