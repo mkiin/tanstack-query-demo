@@ -4,6 +4,9 @@ import { z } from "zod/v4";
 
 export const env = createEnv({
   extends: [vercel()],
+  shared: {
+    NODE_ENV: z.enum(["development", "production"]).default("development"),
+  },
   server: {
     DATABASE_URL: z.url(),
   },
