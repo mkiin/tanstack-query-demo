@@ -6,23 +6,9 @@ export default function Page() {
       <h1 className="text-3xl font-bold">Hello world!</h1>
       <ul className="list-disc pl-5">
         <li>
-          <StyledLink href="/articles">Articles</StyledLink>
+          <Link href={"/articles"} className="text-blue-500 underline" />
         </li>
       </ul>
     </div>
-  );
-}
-
-function StyledLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <Link href={href} className="text-blue-500 underline">
-      {children}
-    </Link>
   );
 }
