@@ -1,4 +1,5 @@
 // サーバー側からtRPCを呼び出すためのコンテキストを作成する
+/** biome-ignore-all lint/suspicious/noExplicitAny: <TRPC利用のたｍ> */
 /**
  * step1: サーバーで利用するコンテキストの作成
  * step2: サーバーでtRPCを呼び出す際のクエリークライント

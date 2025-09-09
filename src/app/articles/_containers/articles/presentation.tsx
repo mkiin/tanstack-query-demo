@@ -2,12 +2,12 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { Article } from "@/lib/db/schema";
-import { useTRPC } from "@/trpc/client";
+import { useTRPC } from "@/trpc/react";
 
 export function ArticlesList() {
   const trpc = useTRPC();
   const { data: articles } = useSuspenseQuery(
-    trpc.article.getFive.queryOptions(),
+    trpc.article.getFive.queryOptions(undefined),
   );
 
   if (articles.length === 0) {
