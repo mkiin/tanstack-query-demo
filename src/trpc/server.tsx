@@ -16,7 +16,7 @@ import { headers } from "next/headers";
 import type React from "react";
 import { cache } from "react";
 import { createTRPCContext } from "./init";
-import { makeQueryClient } from "./query-client";
+import { createQueryClient } from "./query-client";
 import { type AppRouter, appRouter } from "./routers/_app";
 
 const createContext = cache(async () => {
@@ -28,7 +28,7 @@ const createContext = cache(async () => {
   });
 });
 
-const getQueryClient = cache(makeQueryClient);
+const getQueryClient = cache(createQueryClient);
 
 export const trpc = createTRPCOptionsProxy<AppRouter>({
   router: appRouter,

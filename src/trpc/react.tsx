@@ -13,20 +13,21 @@ import type React from "react";
 import { useState } from "react";
 import SuperJSON from "superjson";
 import { env } from "@/env";
-import { makeQueryClient } from "@/trpc/query-client";
+import { createQueryClient } from "@/trpc/query-client";
 import type { AppRouter } from "@/trpc/routers/_app";
 
 export const { TRPCProvider, useTRPC, useTRPCClient } =
   createTRPCContext<AppRouter>();
 
-let browserQueryClient: QueryClient | undefined;
-
+let clientQueryClientSingleton: QueryClient | undefined;
 const getQueryClient = () => {
-  if (isServer) {
-    return makeQueryClient();
+  if (typeof window === "undefined") {
+    // Server: always make a new query client
+    return createQueryClient();
   } else {
-    if (!browserQueryClient) browserQueryClient = makeQueryClient();
-    return browserQueryClient;
+    // Browser: use singleton pattern to keep the same query client
+    // biome-ignore lint/suspicious/noAssignInExpressions: 許せ佐助
+    return (clientQueryClientSingleton ??= createQueryClient());
   }
 };
 
